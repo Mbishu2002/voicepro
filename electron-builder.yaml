@@ -1,0 +1,12 @@
+appId: "com.voicepro.app"
+productName: "VoicePro"
+copyright: "Copyright (c) 2024"
+win:
+  target: ["dir", "portable", "zip"]
+  icon: "resources/icon.ico"
+linux:
+  target: ["dir", "appimage", "zip"]
+  icon: "resources/icon.png"
+mac:
+  target: ["dir", "dmg", "zip"]
+  icon: "resources/icon.icns" 
