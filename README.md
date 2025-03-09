@@ -1,36 +1,130 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VoicePro
 
-## Getting Started
+A powerful desktop application for voice synthesis and manipulation, built with Next.js, Electron, and Python.
 
-First, run the development server:
+## Features
 
+- Text-to-Speech synthesis with multiple voice models
+- Voice emotion control and manipulation
+- Project management system
+- History tracking
+- Cross-platform support (Windows, macOS, Linux)
+- Dark/Light mode support
+- Real-time audio preview
+- Custom voice settings
+
+## Tech Stack
+
+- **Frontend**: Next.js, TypeScript, TailwindCSS, Shadcn/ui
+- **Desktop**: Electron
+- **Backend**: Python
+- **Voice Processing**: [Zonos](https://github.com/Zyphra/Zonos)
+
+## Prerequisites
+
+- Node.js 20.x or later
+- Python 3.10 or later
+- Git
+
+## Installation
+
+1. Clone the repository with submodules:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone --recurse-submodules https://github.com/Mbishu2002/voicepro.git
+cd voicepro
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install Node.js dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Install Python dependencies:
+```bash
+cd server
+pip install -r requirements.txt
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Development
 
-## Learn More
+1. Start the development server:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+2. In a separate terminal, start the Electron app:
+```bash
+npm run electron-dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Building
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To build the application for your platform:
+```bash
+npm run build
+npm run electron-build
+```
 
-## Deploy on Vercel
+The built application will be available in the `dist` directory.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+voicepro/
+├── app/                    # Next.js pages and routes
+├── components/            # React components
+├── electron/              # Electron main and preload scripts
+├── server/               # Python backend server
+├── lib/                  # Shared utilities and services
+├── public/              # Static assets
+└── Zonos/               # Zonos submodule
+```
+
+## Automated Workflows
+
+### Dependency Updates
+- Automatically checks for updates daily
+- Creates pull requests for new dependencies
+- Can be manually triggered from GitHub Actions
+
+### Release Pipeline
+- Builds executables for Windows, macOS, and Linux
+- Triggered on version tags (v*)
+- Creates GitHub releases with artifacts
+- Generates release notes automatically
+
+## Updating Zonos
+
+The Zonos module is included as a git submodule. To update to the latest version:
+
+```bash
+git submodule update --remote Zonos
+```
+
+## Contributing
+
+1. Create a new branch from `development`:
+```bash
+git checkout -b feature/your-feature
+```
+
+2. Make your changes and commit:
+```bash
+git commit -m "feat: your feature description"
+```
+
+3. Push to your branch and create a pull request to `development`
+
+## Branch Strategy
+
+- `main`: Production releases
+- `development`: Active development
+- Feature branches: Individual features and fixes
+
+## License
+
+[MIT License](LICENSE)
+
+## Support
+
+For issues and feature requests, please use the GitHub issue tracker.
