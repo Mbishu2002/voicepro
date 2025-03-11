@@ -1,5 +1,13 @@
 import { ipcRenderer } from 'electron'
 
+declare global {
+  interface Window {
+    electron: {
+      invoke: (channel: string, ...args: any[]) => Promise<any>;
+    }
+  }
+}
+
 export interface GenerateAudioParams {
   modelChoice: string
   text: string

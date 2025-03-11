@@ -10,6 +10,7 @@ from typing import Dict, List, Optional
 from dataclasses import dataclass, asdict
 from zonos.model import Zonos, DEFAULT_BACKBONE_CLS as ZonosBackbone
 from zonos.conditioning import make_cond_dict, supported_language_codes
+from torch.quantization import quantize_dynamic
 
 # Global variables
 CURRENT_MODEL_TYPE = None
@@ -184,7 +185,25 @@ def load_model_if_needed(model_choice: str):
                 del CURRENT_MODEL
                 torch.cuda.empty_cache()
             print(f"Loading {model_choice} model...", file=sys.stderr)
-            CURRENT_MODEL = Zonos.from_pretrained(model_choice, device=DEFAULT_DEVICE)
+            
+            # Check for quantized model first
+            quantized_path = os.path.join(os.path.dirname(__file__), '../quantized_model')
+            if DEFAULT_DEVICE == 'cpu' and os.path.exists(quantized_path):
+                print(f"Loading quantized model from {quantized_path}", file=sys.stderr)
+                CURRENT_MODEL = Zonos.from_pretrained(quantized_path, device=DEFAULT_DEVICE)
+            else:
+                # Load from HuggingFace and quantize if needed
+                hf_token = os.environ.get("HF_TOKEN", None)
+                if hf_token:
+                    CURRENT_MODEL = Zonos.from_pretrained(model_choice, device=DEFAULT_DEVICE, use_auth_token=hf_token)
+                else:
+                    CURRENT_MODEL = Zonos.from_pretrained(model_choice, device=DEFAULT_DEVICE)
+                
+                # Apply dynamic quantization to INT8 if using CPU and no pre-quantized model exists
+                if DEFAULT_DEVICE == 'cpu':
+                    CURRENT_MODEL = quantize_dynamic(CURRENT_MODEL, {torch.nn.Linear}, dtype=torch.qint8)
+                    print(f"{model_choice} model quantized to INT8 on CPU.", file=sys.stderr)
+            
             CURRENT_MODEL.requires_grad_(False).eval()
             CURRENT_MODEL_TYPE = model_choice
             print(f"{model_choice} model loaded successfully!", file=sys.stderr)
@@ -418,4 +437,4 @@ def main():
 project_manager = ProjectManager()
 
 if __name__ == "__main__":
-    main() 
+    main()

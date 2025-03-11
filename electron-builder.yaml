@@ -1,12 +1,33 @@
 appId: "com.voicepro.app"
 productName: "VoicePro"
 copyright: "Copyright (c) 2024"
+directories:
+  buildResources: "resources"
+  output: "release"
+files:
+  - "electron/dist/**/*"
+  - "out/**/*"
+  - "node_modules/**/*"
+  - "server/**/*"
+  - "Zonos/**/*"
 win:
-  target: ["dir", "portable", "zip"]
+  target: ["nsis", "portable", "zip"]
   icon: "resources/icon.ico"
+  artifactName: "${productName}-${version}-${arch}.${ext}"
 linux:
-  target: ["dir", "appimage", "zip"]
+  target: ["AppImage", "deb", "rpm", "zip"]
   icon: "resources/icon.png"
+  category: "Audio"
+  artifactName: "${productName}-${version}-${arch}.${ext}"
 mac:
-  target: ["dir", "dmg", "zip"]
-  icon: "resources/icon.icns" 
+  target: ["dmg", "zip"]
+  icon: "resources/icon.icns"
+  category: "public.app-category.music"
+  artifactName: "${productName}-${version}-${arch}.${ext}"
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: "VoicePro"
+  uninstallDisplayName: "VoicePro" 

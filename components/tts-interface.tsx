@@ -347,7 +347,7 @@ export default function TtsInterface() {
                 text={text} 
                 voice={selectedVoice} 
                 settings={voiceSettings} 
-                generatedAudio={generatedAudio}
+                generatedAudio={generatedAudio || undefined}
               />
             </TabsContent>
             <TabsContent value="voice" className="mt-4">

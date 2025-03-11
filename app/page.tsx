@@ -5,9 +5,9 @@ import { useEffect } from "react"
 
 declare global {
   interface Window {
-    electronAPI?: {
-      send: (channel: string, data: any) => void;
-      on: (channel: string, func: (...args: any[]) => void) => void;
+    electronAPI: {
+      send: (channel: string, data: unknown) => void;
+      on: (channel: string, func: (...args: unknown[]) => void) => void;
     }
   }
 }

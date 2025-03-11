@@ -4,11 +4,17 @@
   "private": true,
   "scripts": {
     "dev": "concurrently -n \"NEXT,ELECTRON\" -c \"yellow,blue\" --kill-others \"next dev\" \"npm run electron-dev\"",
-    "build": "next build && npm run electron-build",
+    "build": "next build --no-lint && npm run electron-build",
     "start": "next start",
     "lint": "next lint",
     "electron-dev": "electron electron/src/main.js",
-    "electron-build": "electron-builder"
+    "electron-build": "electron-builder",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps",
+    "build:win": "npm run build && electron-builder --win",
+    "build:mac": "npm run build && electron-builder --mac",
+    "build:linux": "npm run build && electron-builder --linux"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.6",
@@ -33,7 +39,8 @@
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
     "electron-is-dev": "^2.0.0",
-    "electron-serve": "^1.1.0"
+    "electron-serve": "^1.1.0",
+    "dotenv": "^16.0.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -57,19 +64,40 @@
     "files": [
       "electron/dist/**/*",
       "out/**/*",
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "server/**/*",
+      "Zonos/**/*"
     ],
     "directories": {
+      "buildResources": "resources",
       "output": "release"
     },
+    "extraResources": [
+      {
+        "from": "Zonos",
+        "to": "Zonos",
+        "filter": ["**/*"]
+      }
+    ],
     "mac": {
-      "category": "public.app-category.utilities"
+      "category": "public.app-category.music",
+      "target": ["dmg", "zip"],
+      "icon": "resources/icon.icns"
     },
     "win": {
-      "target": "nsis"
+      "target": ["nsis", "portable", "zip"],
+      "icon": "resources/icon.ico"
     },
     "linux": {
-      "target": "AppImage"
+      "target": ["AppImage", "deb", "rpm", "zip"],
+      "category": "Audio",
+      "icon": "resources/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
     }
   }
 }

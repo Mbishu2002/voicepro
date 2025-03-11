@@ -1,0 +1,43 @@
+directories:
+  output: release
+  buildResources: resources
+appId: com.voicepro.app
+productName: VoicePro
+files:
+  - filter:
+      - electron/dist/**/*
+      - out/**/*
+      - node_modules/**/*
+      - server/**/*
+      - Zonos/**/*
+extraResources:
+  - from: Zonos
+    to: Zonos
+    filter:
+      - '**/*'
+mac:
+  category: public.app-category.music
+  target:
+    - dmg
+    - zip
+  icon: resources/icon.icns
+win:
+  target:
+    - nsis
+    - portable
+    - zip
+  icon: resources/icon.ico
+linux:
+  target:
+    - AppImage
+    - deb
+    - rpm
+    - zip
+  category: Audio
+  icon: resources/icon.png
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+electronVersion: 29.4.6
