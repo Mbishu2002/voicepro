@@ -1,0 +1,10 @@
+torch==2.2.1
+torchaudio==2.2.1
+numpy>=1.24.0
+soundfile>=0.12.1
+librosa>=0.10.1
+scipy>=1.11.0
+python-dotenv>=1.0.0
+espeak-ng>=0.0.1; platform_system == "Linux"
+pywin32>=306; platform_system == "Windows"
+winsdk>=1.0.0; platform_system == "Windows" 
