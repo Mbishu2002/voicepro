@@ -16,6 +16,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true  # Added to update submodules
+      - name: Sync and update submodules
+        run: |
+          git submodule sync --recursive
+          git submodule update --init --recursive --force --depth=1
       
       - name: Set up Node.js
         uses: actions/setup-node@v4
