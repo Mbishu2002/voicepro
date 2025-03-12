@@ -19,7 +19,7 @@ jobs:
       - name: Sync and update submodules
         run: |
           git submodule sync --recursive
-          git submodule update --init --recursive --force --depth=1
+          git submodule update --init --recursive --force  # removed --depth=1 flag
       
       - name: Set up Node.js
         uses: actions/setup-node@v4
