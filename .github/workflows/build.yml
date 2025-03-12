@@ -32,7 +32,7 @@ jobs:
           npm ci
           python -m pip install --upgrade pip
           pip install uv
-          cd Zonos && uv pip install -e . --extra compile
+          cd Zonos && uv pip install -e . [compile]
           
       - name: Build application
         env:
